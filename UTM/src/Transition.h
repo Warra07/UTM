@@ -18,7 +18,7 @@ public:
 			output_symbol(output_symbol),
 			direction(direction),
 			next_state(next_state) {};
-	virtual ~Transition();
+	virtual ~Transition(){};
 
 	const char& getDirection() const {
 		return direction;
@@ -61,8 +61,9 @@ public:
 	}
 
 private:
-	char input_symbol, output_symbol, direction;
+
 	string initial_state, next_state;
+	char input_symbol, output_symbol, direction;
 };
 
 #endif /* TRANSITION_H_ */

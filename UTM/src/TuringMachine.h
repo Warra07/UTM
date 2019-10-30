@@ -12,13 +12,16 @@
 #include <string>
 #include "Tape.h"
 #include "State.h"
+#include <fstream>
+#include <iostream>
 
 
 using namespace std;
 
 class TuringMachine {
 public:
-	TuringMachine(string fileName, bool show_steps=0, bool show_states=0, bool show_tape=0) {
+	TuringMachine(string fileName, map<string, bool>& parameters) {
+
 		//TODO initialiser la machine de turing selon le fichier en parametre
 		/*
 		 * Verifier toutes erreur de syntax possibble et renvoyer une exception si une
@@ -35,6 +38,32 @@ public:
 		 *
 		 *De plus si la machine ne contient aucun etat ou aucune transition, renovyer une exception.
 		 */
+
+
+		this->parameters = parameters;
+
+
+		 ofstream myfile1;
+		  myfile1.open ("example.tm");
+		  myfile1 << "Writing this to a file.\n";
+		  myfile1.close();
+
+		 string line;
+		  ifstream myfile ("example.tm");
+		  if (myfile.is_open())
+		  {
+		    while ( getline (myfile,line) )
+		    {
+		      cout << line << '\n';
+		    }
+		    myfile.close();
+		  }
+
+		  else cout << "Unable to open file";
+
+
+
+
 	}
 	void runTuringMachine(string input) {
 		//TODO run la machine de turing avec les inputs donné en parametre. utiliser la methode transitionning de l'bojet stat pour
@@ -42,15 +71,15 @@ public:
 	     * passer d'un etat à l'autre.
 	     */
 	}
-	virtual ~TuringMachine();
+	virtual ~TuringMachine(){};
 
 private:
-Tape tape;
+Tape* tape;
 map<string, State> states;
 string inputs;
 string firstState;
 char blank='B';
-bool show_steps, show_states, show_tape;
+map<string, bool> parameters;
 
 };
 
