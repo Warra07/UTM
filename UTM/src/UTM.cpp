@@ -16,11 +16,17 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
 	map<string, bool> parameters;
+
+
 	string input;
 	string fileName;
+
+
 	parameters.insert({"-steps", 0});
 	parameters.insert({"-state", 0});
 	parameters.insert({"-tape", 0});
+
+
 
 	    if(argc > parameters.size() + 3) {
 	    	cout << "ERROR : Too many arguments, check for spaces ?";
@@ -43,32 +49,11 @@ int main(int argc, char *argv[]) {
 
 	    	fileName = argv[argc - 2];
 	    	input = argv[argc - 1];
-
+	    	try{
 	    	TuringMachine tm = TuringMachine(fileName, parameters);
+	    	} catch(string msg) {
+	    	     cerr << msg << endl;};
 	    }
 
-	 ofstream myfile1;
-	  myfile1.open ("example.tm");
-	  myfile1 << "Writing this to a file.\n";
-	  myfile1.close();
-
-	string line;
-	  ifstream myfile ("example.tm");
-	  if (myfile.is_open())
-	  {
-	    while ( getline (myfile,line) )
-	    {
-	      cout << line << '\n';
-	    }
-	    myfile.close();
-	  }
-
-	  else cout << "Unable to open file";
-
-
-
-
-	cout << "!!!Hddddello World!!!" << endl; // prints !!!Hello World!!!
-	cin >> line;
 	return 0;
 }

@@ -15,16 +15,20 @@ using namespace std;
 
 class State {
 public:
-	State(bool final_state=0):final_state(final_state){};
+	State(bool final_state=0):final_state(final_state){
+	};
 	virtual ~State(){};
-	void insertTransition(string initial_state, char input_symbol, char output_symbol,
-			char direction, string next_state) {
+	void insertTransition(string initial_state, char input_symbol, string next_state,  char output_symbol,
+			 char direction) {
 		//TODO inserer une transition dans le map transitions.
 	}
 
 	bool hasInputSymbol(char input_symbol) {
 		//TODO Check si le symbol en entrer est deja dans la map de transition.
-		return 0;
+		if(transitions.find(input_symbol) == transitions.end()) {
+			return 0;
+		}
+		return 1;
 	}
 
 	string transitioning(Tape& tape) {

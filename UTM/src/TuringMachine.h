@@ -14,6 +14,8 @@
 #include "State.h"
 #include <fstream>
 #include <iostream>
+#include <regex>
+#include <set>
 
 
 using namespace std;
@@ -43,26 +45,150 @@ public:
 		this->parameters = parameters;
 
 
-		 ofstream myfile1;
-		  myfile1.open ("example.tm");
-		  myfile1 << "Writing this to a file.\n";
+		map<string, string> patternMatcher;
+
+		patternMatcher.insert({"initial", "\\((.*?)\\)"});
+		patternMatcher.insert({"state","\\((.*?),([TF])\\)"});
+		patternMatcher.insert({"blank", "\\((.)\\)"});
+		patternMatcher.insert({"symbol", "\\((.),([TF])\\)"});
+		patternMatcher.insert({"transition", "\\((.*?),(.),(.*?),(.),([RL])\\)"});
+
+
+		  ofstream myfile1;
+		  myfile1.open ("testing.tm");
+		  	  	  myfile1 << "initial(In Progress)\n";
+				  myfile1 << "state(Done,T)\n";
+				  myfile1 << "blank(B)\n";
+				  myfile1 << "symbol(0,T)\n";
+				  myfile1 << "symbol(1,T)\n";
+				  myfile1 << "transition(In Progress,0,In Progress,0,R)\n";
+				  myfile1 << "transition(In Progress,0,In Progress,1,R)\n";
+				  myfile1 << "transition(In Progress,B,Done,0,R)\n";
+				  //myfile1 << "transitionIn Progress,B,Done,0,R)\n";
+
 		  myfile1.close();
 
 		 string line;
-		  ifstream myfile ("example.tm");
+		  ifstream myfile ("testing.tm");
 		  if (myfile.is_open())
 		  {
 		    while ( getline (myfile,line) )
 		    {
-		      cout << line << '\n';
+		      std::regex head("^(.*?)\\(\\b");
+
+		      std::smatch matches;
+
+		      if(std::regex_search(line, matches, head)) {
+			        string match = matches.str(1);
+
+			        if(patternMatcher.find(match) == patternMatcher.end()) {
+
+			        	throw "ERROR : unkown turing machine component : " + match + " at line : " + line;
+
+			        } else {
+
+					      string bodyReg = patternMatcher[match];
+					      std::regex body(bodyReg);
+
+					      std::smatch bodyMatches;
+
+					      if(std::regex_search(line, bodyMatches, body)) {
+
+					    	  if (match == "initial") {
+					    	    this->firstState = bodyMatches.str(1);
+
+					    	    if(states.find(bodyMatches.str(1)) == states.end()) {
+					    	      this->states.insert({bodyMatches.str(1), State(0)});
+					    	     }
+					    	   }
+
+
+					    	  else if (match == "state") {
+					    		  //string finalState_symbol = bodyMatches.str(2);
+								  bool finalState = bodyMatches.str(2)[0] == 'T' ? true : false;
+
+					    	    if(states.find(bodyMatches.str(1)) == states.end()) {
+					    	    this->states.insert({bodyMatches.str(1), State(finalState)});
+					    	    } else {
+
+					    	      this->states[bodyMatches.str(1)].setFinalState(finalState);
+					    	    }
+					    	  }
+
+
+					    	  else if (match == "blank"){
+					    	    this->blank = bodyMatches.str(1)[0];
+					    	    this->alphabet_symbols.insert(this->blank);
+					    	  }
+
+
+
+
+					    	  else if (match == "symbol") {
+
+
+					    	    if(this->alphabet_symbols.find(bodyMatches.str(1)[0]) == this->alphabet_symbols.end()) {
+
+					    	    if(bodyMatches.str(2)[0] == 'T') {
+					    	      this->input_symbols.insert(bodyMatches.str(1)[0]);
+					    	    }
+
+					    	    this->alphabet_symbols.insert(bodyMatches.str(1)[0]);
+					    	    } else {
+					    	      if(bodyMatches.str(2)[0] == 'F') {
+					    	        this->input_symbols.erase(bodyMatches.str(1)[0]);
+					    	      }
+					    	    }
+					    	  }
+
+
+
+
+
+
+
+					    	  else if (match ==  "transition") {
+					    	    if(states.find(bodyMatches.str(1)) == states.end()) {
+					    	      this->states.insert({bodyMatches.str(1), State(false)});
+					    	    }
+					    	    if(this->states[bodyMatches.str(1)].hasInputSymbol(bodyMatches.str(2)[0])) {
+					    	    	throw "ERROR : Deterministic turing machine have only one transition per (state,symbol) found 2 at ("
+									+ bodyMatches.str(1) + "," + bodyMatches.str(2)[0] + ").";
+					    	    }
+					    	    this->states[bodyMatches.str(1)].insertTransition(bodyMatches.str(1), bodyMatches.str(2)[0],
+					    	                                                   bodyMatches.str(3),  bodyMatches.str(4)[0],
+					    	                           bodyMatches.str(5)[0]);
+
+					    	    if(this->alphabet_symbols.find(bodyMatches.str(2)[0]) == this->alphabet_symbols.end()) {
+					    	      this->alphabet_symbols.insert(bodyMatches.str(2)[0]);
+					    	      this->input_symbols.insert(bodyMatches.str(2)[0]);
+					    	    }
+					    	    if(this->alphabet_symbols.find(bodyMatches.str(4)[0]) == this->alphabet_symbols.end()) {
+
+					    	      this->alphabet_symbols.insert(bodyMatches.str(4)[0]);
+					    	      this->input_symbols.insert(bodyMatches.str(4)[0]);
+
+					    	    }
+					    	  }
+
+
+
+					      } else {
+					    	  throw "ERROR : unrecognized " + match + " argument at line : " + line;
+					      }
+
+			        }
+
+
+		      } else {
+		    	  throw  "ERROR: no matching for line : " + line;
+		      }
+
 		    }
 		    myfile.close();
 		  }
 
-		  else cout << "Unable to open file";
-
-
-
+		  else throw "ERROR : Unable to open file";
 
 	}
 	void runTuringMachine(string input) {
@@ -73,6 +199,7 @@ public:
 	}
 	virtual ~TuringMachine(){};
 
+
 private:
 Tape* tape;
 map<string, State> states;
@@ -80,7 +207,10 @@ string inputs;
 string firstState;
 char blank='B';
 map<string, bool> parameters;
+set<char> input_symbols, alphabet_symbols;
 
 };
+
+
 
 #endif /* TURINGMACHINE_H_ */
