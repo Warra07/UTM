@@ -24,7 +24,7 @@ public:
 		
 		if(!hasInputSymbol(input_symbol))
 		 {
-			transitions.insert({input_symbol, Transition(initial_state, input_symbol, next_state, output_symbol, direction)}) ;
+		   transitions.insert({input_symbol, Transition(initial_state, input_symbol, next_state, output_symbol, direction)}) ;
 		}
 
             else throw "ERROR : we are in a deterministic turing machine, there can only be one transition for a particular state and input";
