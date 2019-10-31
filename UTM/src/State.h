@@ -50,7 +50,7 @@ public:
 
 				     return it->second.getNextState() ;
 				 }
-                                else throw "ERROR : no transition found " ;
+                                else throw "ERROR : no transition found, input rejected ! " ;
              }
 
 	bool isFinalState() const {
