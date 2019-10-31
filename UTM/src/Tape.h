@@ -13,8 +13,8 @@ using namespace std;
 
 class Tape {
 public:
-	Tape(string input, int head_pos, char blank): input(input), head_pos(head_pos), blank(blank){};
-	virtual ~Tape();
+	Tape(string input, int head_pos, char blank): input(input), head_pos(head_pos), blank(blank) {};
+	virtual ~Tape(){};
 
 	int getHeadPos() const {
 		return head_pos;
@@ -40,8 +40,27 @@ public:
 	}
 
 	void moveHead(char direction) {
-		//TODO déplacer la téte a la direction demandé, jeté une exception
-		// si la direction est inconnu.
+		if(direction == 'L') {
+
+			if(head_pos == 0) {
+				input.insert(0,1, blank);
+			} else {
+				head_pos--;
+			}
+
+		} else if (direction == 'R') {
+
+			if(head_pos == input.length() - 1) {
+				input.insert(input.length(),1, this->blank);
+
+			}
+			head_pos++;
+
+
+		} else {
+			throw "ERROR : Direction unknown";
+		}
+
 	}
 
 private:

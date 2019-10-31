@@ -15,6 +15,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+
 	map<string, bool> parameters;
 
 
@@ -51,6 +52,7 @@ int main(int argc, char *argv[]) {
 	    	input = argv[argc - 1];
 	    	try{
 	    	TuringMachine tm = TuringMachine(fileName, parameters);
+	    	tm.runTuringMachine("101010");
 	    	} catch(string msg) {
 	    	     cerr << msg << endl;};
 	    }

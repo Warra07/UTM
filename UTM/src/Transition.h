@@ -13,11 +13,17 @@ using namespace std;
 
 class Transition {
 public:
-	Transition(string initial_state, char input_symbol, char output_symbol,
-			char direction, string next_state): initial_state(initial_state), input_symbol(input_symbol),
-			output_symbol(output_symbol),
-			direction(direction),
-			next_state(next_state) {};
+	Transition() {};
+	Transition(string initial_state,
+			char input_symbol,
+			string next_state,
+			char output_symbol,
+			char direction): initial_state(initial_state),
+							input_symbol(input_symbol),
+							next_state(next_state),
+							output_symbol(output_symbol),
+							direction(direction) {
+	};
 	virtual ~Transition(){};
 
 	const char& getDirection() const {
