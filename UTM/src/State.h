@@ -48,7 +48,7 @@ public:
 			             tape.setHeadInput(it->second.getOutputSymbol());
 				     tape.moveHead(it->second.getDirection());
 
-				     return it->second.getNextState()
+				     return it->second.getNextState() ;
 				 }
                                 else throw "ERROR : no transition found " ;
              }
