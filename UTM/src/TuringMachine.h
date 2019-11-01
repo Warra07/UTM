@@ -8,7 +8,6 @@
 #ifndef TURINGMACHINE_H_
 #define TURINGMACHINE_H_
 #include <map>
-#include "Transition.h"
 #include <string>
 #include "Tape.h"
 #include "State.h"
@@ -62,7 +61,7 @@ public:
 				  myfile1 << "symbol(0,T)\n";
 				  myfile1 << "symbol(1,T)\n";
 				  myfile1 << "transition(In Progress,0,In Progress,0,R)\n";
-				  myfile1 << "transition(In Progress,0,In Progress,1,R)\n";
+				  myfile1 << "transition(In Progress,1,In Progress,1,R)\n";
 				  myfile1 << "transition(In Progress,B,Done,0,R)\n";
 				  //myfile1 << "transitionIn Progress,B,Done,0,R)\n";
 
@@ -74,6 +73,7 @@ public:
 		  {
 		    while ( getline (myfile,line) )
 		    {
+
 		      std::regex head("^(.*?)\\(\\b");
 
 		      std::smatch matches;
@@ -190,12 +190,60 @@ public:
 
 		  else throw "ERROR : Unable to open file";
 
+
+
+		  if(this->firstState == "") {
+			  throw "ERROR: initial State missing";
+		  }
+
+
+
 	}
 	void runTuringMachine(string input) {
-		//TODO run la machine de turing avec les inputs donné en parametre. utiliser la methode transitionning de l'bojet stat pour
-	    /*
-	     * passer d'un etat à l'autre.
-	     */
+
+		string state = this->firstState;
+
+		tape = new Tape(input, 0, this->blank);
+
+		while(!(this->states[state].isFinalState())) {
+
+			if( this->parameters["-steps"]) {
+				this->states[state].showCurrentTransition(tape->getHeadInput(), state);
+			}
+
+			state = this->states[state].transitioning(*tape);
+
+		}
+
+
+
+
+		if(this->parameters["-state"]) {
+			cout << "Final State: " << state << endl;
+		}
+
+		if (this->parameters["-tape"]) {
+
+			string regexString = "([^";
+			regexString += this->blank;
+			regexString += "].*[^";
+			regexString += this->blank;
+			regexString += "]|[^";
+			regexString += this->blank;
+			regexString += "])";
+
+
+		      std::regex reg(regexString);
+
+
+		      std::smatch bodyMatches;
+		      tape->setInput(blank + tape->getInput() + blank);
+		     if(std::regex_search(tape->getInput(), bodyMatches, reg)) {
+		    	 cout << "Final Tape : " << bodyMatches.str(1) << endl;
+		     } else {
+		    	 cout << "Final Tape : " << tape->getInput() << endl;
+		     }
+		}
 	}
 	virtual ~TuringMachine(){};
 
@@ -204,7 +252,7 @@ private:
 Tape* tape;
 map<string, State> states;
 string inputs;
-string firstState;
+string firstState = "";
 char blank='B';
 map<string, bool> parameters;
 set<char> input_symbols, alphabet_symbols;

@@ -61,6 +61,23 @@ public:
 		final_state = finalState;
 	}
 
+	void showCurrentTransition(char input, string state) {
+
+		 auto it = transitions.find(input);
+				 if (it != transitions.end())
+				 {
+					 cout << "(" << state << ", " << input << ") -> " << "(" << it->second.getNextState() << ", "
+							 << it->second.getOutputSymbol();
+					 if(!this->final_state) {
+						 cout << ", " << it->second.getDirection();
+					 }
+					 cout << ")" << endl;
+
+
+				 } else throw "ERROR : no transition found, input rejected !";
+
+	}
+
 private:
 	bool final_state =0;
 	map<char, Transition> transitions;
