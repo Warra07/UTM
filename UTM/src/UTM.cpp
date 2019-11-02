@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 	    	input = argv[argc - 1];
 	    	try{
 	    	TuringMachine tm = TuringMachine(fileName, parameters);
-	    	tm.runTuringMachine("101010");
+	    	tm.runTuringMachine(input);
 	    	} catch(string msg) {
 	    	     cerr << msg << endl;};
 	    }

@@ -53,7 +53,7 @@ public:
 		patternMatcher.insert({"transition", "\\((.*?),(.),(.*?),(.),([RL])\\)"});
 
 
-		  ofstream myfile1;
+		/*  ofstream myfile1;
 		  myfile1.open ("testing.tm");
 		  	  	  myfile1 << "initial(In Progress)\n";
 				  myfile1 << "state(Done,T)\n";
@@ -65,10 +65,10 @@ public:
 				  myfile1 << "transition(In Progress,B,Done,0,R)\n";
 				  //myfile1 << "transitionIn Progress,B,Done,0,R)\n";
 
-		  myfile1.close();
+		  myfile1.close();*/
 
 		 string line;
-		  ifstream myfile ("testing.tm");
+		  ifstream myfile (fileName);
 		  if (myfile.is_open())
 		  {
 		    while ( getline (myfile,line) )
@@ -202,6 +202,17 @@ public:
 	void runTuringMachine(string input) {
 
 		string state = this->firstState;
+
+		for(char character: input){
+			auto it = input_symbols.find(character);
+			if(it == input_symbols.end()) {
+				string err = "ERROR: Character ";
+				err += character;
+				err += " not in input symbols.";
+				throw err;
+			}
+		}
+
 
 		tape = new Tape(input, 0, this->blank);
 
