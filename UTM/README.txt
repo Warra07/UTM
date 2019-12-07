@@ -1,10 +1,10 @@
-#Deterministic Universal Turing Machine
+# Deterministic Universal Turing Machine
 
 Le projet a été testé et compilé sur des machines Windows 8.1, Windows 10, Ubuntu 19.04.
 La compilation se fait en utilisant le compilateur g++, un script build.sh est mis à disposition afin de compiler le 
 programme, en sortie un exécutable nommé UTM(.exe pour Windows) sera utilisé afin d’exécuter le programme.
 
-##Getting Started
+## Getting Started
 UTM [Options]… TM_FILE_DESCRIPT… INPUT…
 
 -	Options : il y’a 3 types d’options possibles :
