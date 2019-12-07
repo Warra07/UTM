@@ -1,4 +1,6 @@
 # Deterministic Universal Turing Machine
+Ce projet a pour but de mettre en place un programme permettant de simuler une DTM en utilisant un fichier décrivant la
+machine a simuler.
 
 Le projet a été testé et compilé sur des machines Windows 8.1, Windows 10, Ubuntu 19.04.
 La compilation se fait en utilisant le compilateur g++, un script build.sh est mis à disposition afin de compiler le 
