@@ -156,7 +156,7 @@ public:
 									+ bodyMatches.str(1) + "," + bodyMatches.str(2)[0] + ").";
 					    	    }
 					    	    this->states[bodyMatches.str(1)].insertTransition(bodyMatches.str(1), bodyMatches.str(2)[0],
-					    	                                                   bodyMatches.str(3),  bodyMatches.str(4)[0],
+					    	    		bodyMatches.str(3),  bodyMatches.str(4)[0],
 					    	                           bodyMatches.str(5)[0]);
 
 					    	    if(this->alphabet_symbols.find(bodyMatches.str(2)[0]) == this->alphabet_symbols.end()) {

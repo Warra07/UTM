@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 	    	return 1;
 
 	    } else if(argc < 3) {
-	    cout << "ERROR : Too few arguments.";
+	    cout << "ERROR : Not enough arguments.";
 	    return 1;
 	    }
 	    else {
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 	    	try{
 	    	TuringMachine tm = TuringMachine(fileName, parameters);
 	    	tm.runTuringMachine(input);
-	    	} catch(string msg) {
+	    	} catch(char const  *msg) {
 	    	     cerr << msg << endl;};
 	    }
 
