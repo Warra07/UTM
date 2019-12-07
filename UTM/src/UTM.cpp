@@ -30,11 +30,11 @@ int main(int argc, char *argv[]) {
 
 
 	    if(argc > parameters.size() + 3) {
-	    	cout << "ERROR : Too many arguments, check for spaces ?";
+	    	cout << "ERROR : Too many arguments, check for spaces ?" << endl;
 	    	return 1;
 
 	    } else if(argc < 3) {
-	    cout << "ERROR : Not enough arguments.";
+	    cout << "ERROR : Not enough arguments." << endl;
 	    return 1;
 	    }
 	    else {
