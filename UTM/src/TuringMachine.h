@@ -53,19 +53,6 @@ public:
 		patternMatcher.insert({"transition", "\\((.*?),(.),(.*?),(.),([RL])\\)"});
 
 
-		/*  ofstream myfile1;
-		  myfile1.open ("testing.tm");
-		  	  	  myfile1 << "initial(In Progress)\n";
-				  myfile1 << "state(Done,T)\n";
-				  myfile1 << "blank(B)\n";
-				  myfile1 << "symbol(0,T)\n";
-				  myfile1 << "symbol(1,T)\n";
-				  myfile1 << "transition(In Progress,0,In Progress,0,R)\n";
-				  myfile1 << "transition(In Progress,1,In Progress,1,R)\n";
-				  myfile1 << "transition(In Progress,B,Done,0,R)\n";
-				  //myfile1 << "transitionIn Progress,B,Done,0,R)\n";
-
-		  myfile1.close();*/
 
 		 string line;
 		  ifstream myfile (fileName);
