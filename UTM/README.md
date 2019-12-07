@@ -10,9 +10,9 @@ programme, en sortie un exécutable nommé UTM(.exe pour Windows) sera utilisé 
 UTM [Options]… TM_FILE_DESCRIPT… INPUT…
 
 -	Options : il y’a 3 types d’options possibles :
-o	--steps : affichera chaque étape de transition.
-o	--state : affichera l’état final.
-o	--tape : affichera le contenu de la tape.
+o	-steps : affichera chaque étape de transition.
+o	-state : affichera l’état final.
+o	-tape : affichera le contenu de la tape.
 
 -	TM_FILE_DESCRIPT (Obligatoire) : le nom du fichier d’extension .tm qui contiendra la description de la machine de 
 	turing à simuler.
