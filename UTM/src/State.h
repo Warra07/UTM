@@ -10,7 +10,8 @@
 #include <string>
 #include <map>
 #include "Transition.h"
-
+#include <iostream>
+#include "Tape.h"
 using namespace std;
 
 class State {
